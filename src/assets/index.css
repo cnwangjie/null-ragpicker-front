@@ -1,0 +1,53 @@
+.header{
+	display: flex;
+	flex-direction: row;
+	margin:10px 10px 0 10px;
+}
+
+.icon{
+	height: 24px;
+	width: 24px;
+}
+
+.avatar{
+	width:100px;
+	height:100px;
+	border-radius:100px;
+}
+
+.user{
+	flex: 8;
+	display: flex;
+	flex-direction: column;
+  	align-items: center;
+	padding-top: 10px;
+}
+
+.garbage{
+	height: 80px;
+	width: 80px;
+}
+
+.order-content{
+	margin: 0 10px 10px;
+
+}
+
+.goods{
+	display: flex;
+	flex-direction: row;
+}
+
+.order{
+	position: fixed;
+	margin:0 auto;
+	left:0;
+	right:0;
+	bottom: 30px;
+	width: 200px;
+	height: 50px;
+	background-color: #169BD5;
+	font-size: 30px;
+	color: white;
+	border-radius: 10px;
+}

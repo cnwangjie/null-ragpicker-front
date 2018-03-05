@@ -1,0 +1,12 @@
+.order-type{
+	margin: 20px;
+	text-align: center;
+}
+
+.btntype{
+	background-color: #169BD5;
+	color: white;
+	width: 80px;
+	height: 30px;
+	border-radius: 5px;
+}
