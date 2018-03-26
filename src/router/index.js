@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import useraddress from '@/components/user/address'
-import useraddresscreat from '@/components/user/addresscreat'
-import userhome from '@/components/user/home'
-import userorder from '@/components/user/order'
-import userordernew from '@/components/user/ordernew'
-import userorderdetail from '@/components/user/orderdetail'
-import useraddressedit from '@/components/user/addressedit'
-import choseaddress from '@/components/user/choseaddress'
-import collectororder from '@/components/collector/order'
-import collectororderdetail from '@/components/collector/orderdetail'
+import userHome from '@/components/user/home'
+import userOrder from '@/components/user/order'
+import userOrderNew from '@/components/user/order/orderNew'
+import userOrderCreate from '@/components/user/order/orderCreate'
+import userOrderDetail from '@/components/user/order/orderDetail'
+import userAddress from '@/components/user/address'
+import userAddressEdit from '@/components/user/address/addressEdit'
+import userAddressChoose from '@/components/user/address/addressChoose'
+import userAddressCreate from '@/components/user/address/addressCreate'
+import collectorOrder from '@/components/collector/order'
+import collectorOrderDetail from '@/components/collector/order/orderDetail'
 
 Vue.use(Router)
 
@@ -17,53 +18,58 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'userhome',
-      component: userhome
+      name: 'userHome',
+      component: userHome
     },
     {
       path: '/user/address',
-      name: 'useraddress',
-      component: useraddress
+      name: 'userAddress',
+      component: userAddress
     },
     {
-      path: '/user/choseaddress',
-      name: 'choseaddress',
-      component: choseaddress
+      path: '/user/address/choose',
+      name: 'userAddressChoose',
+      component: userAddressChoose
     },
     {
-      path: '/user/addresscreat',
-      name: 'useraddresscreat',
-      component: useraddresscreat
+      path: '/user/address/create',
+      name: 'userAddressCreate',
+      component: userAddressCreate
     },
     {
-      path: '/user/addressedit',
-      name: 'useraddressedit',
-      component: useraddressedit
+      path: '/user/address/:id/edit',
+      name: 'userAddressEdit',
+      component: userAddressEdit
     },
     {
       path: '/user/order',
-      name: 'userorder',
-      component: userorder
+      name: 'userOrder',
+      component: userOrder
     },
     {
-      path: '/user/ordernew',
-      name: 'userordernew',
-      component: userordernew
+      path: '/user/order/new',
+      name: 'userOrderNew',
+      component: userOrderNew
     },
     {
-      path: '/user/orderdetail',
-      name: 'userorderdetail',
-      component: userorderdetail
+      path: '/user/order/create',
+      name: 'userOrderCreate',
+      component: userOrderCreate
     },
     {
-      path: '/collector/orderdetail',
-      name: 'collectororderdetail',
-      component: collectororderdetail
+      path: '/user/order/detail',
+      name: 'userOrderDetail',
+      component: userOrderDetail
+    },
+    {
+      path: '/collector/order/detail',
+      name: 'collectorOrderDetail',
+      component: collectorOrderDetail
     },
     {
       path: '/collector/order',
-      name: 'collectororder',
-      component: collectororder
+      name: 'collectorOrder',
+      component: collectorOrder
     }
   ]
 })

@@ -1,23 +1,24 @@
 /* eslint-disable */
 <template lang="html">
-  <div class="theall">
+  <div class="the-all">
 
-    <div class="userinformation">
-      <div class="baseinfo">
 
-        <div class="weui-cells">
+    <div class="user-information">
+      <div class="base-information">
+
+        <div class="weui-cells" style="margin-top:0px">
 
           <router-link :to="'/'" class="weui-cell weui-cell_access">
             <div class="weui-cell__hd">
-              <img src="static/images/1.jpg" class="avatar">
+              <img :src="info.avatar" class="avatar">
             </div>
             <div class="weui-cell__bd title">
-              <p class="na">{{ username }}</p>
-              <p class="ph">{{ userphone }}</p>
+              <p class="na">{{ info.nickName }}</p>
+
             </div>
           </router-link>
 
-          <div class="betweenspace">
+          <div class="between-space">
           </div>
 
           <router-link :to="'/user/address'" class="weui-cell weui-cell_access">
@@ -45,44 +46,69 @@
 </template>
 
 <script>
+import { getUserInfo } from '@/service/getData'
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   data () {
     return {
-      username: '王尼玛',
-      userphone: '1777777'
+      info: {
+        nickName: '',
+        avatar: '',
+      }
     }
   },
+  computed: {
+    ...mapState(['userId','userInfo'])
+  },
+  created() {
+    this.init()
+  },
   methods: {
+    ...mapMutations(['setUserInfo']),
+    async init () {
+      if (this.userInfo.length === 0) {
+        await  getUserInfo(this.userId).then(result => {
+          if ('error' in result) {
+
+          } else {
+            this.setUserInfo(result)
+          }
+        })
+      }
+      this.info.nickName = this.userInfo[0].nickname
+      this.info.avatar = this.userInfo[0].avatar
+    }
   }
 }
 </script>
 
 <style lang="scss">
-.theall {
+.the-all {
   width: 100%;
   height: 100%;
   position: fixed;
   background-color: #ffefef;
-}
-.userinformation {
-  .betweenspace {
-    width: 100%;
-    height:50px;
-    background-color: #ffefef;
-  }
-  .title {
-    .na {
-      font-weight: bold;
+  .user-information {
+    .between-space {
+      width: 100%;
+      height:50px;
+      background-color: #ffefef;
     }
-    .ph {
-      font-family:"Times New Roman",Georgia,Serif
-    }
+    .title {
+      .na {
+        margin-left: 10px;
+        font-family: "Times New Roman", Times, serif;
+        font-weight:bold;
+      }
 
-  }
-  .avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 100px
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px
+    }
   }
 }
+
 </style>

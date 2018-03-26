@@ -13,7 +13,9 @@ const getCookie = key => {
   return cookie.toString()
 }
 
-const getToken = () => {
+export const getUserByToken = token => token.split('.').splice(1, 1).map(i => atob(i)).map(i => JSON.parse(i)).shift()
+
+export const getToken = () => {
   const cookie = getCookie(tokenKey)
   if (cookie) {
     localStorage.setItem(tokenKey, cookie)
@@ -68,13 +70,13 @@ export const addAddress = (userId, address) => fetchData(`/api/user/${userId}/ad
 
 export const getAddress = addressId => fetchData(`/api/address/${addressId}`)
 
-export const updateAddress = (userId, address) => fetchData(`/api/address/${addressId}`, 'POST', address)
+export const updateAddress = (addressId, address) => fetchData(`/api/address/${addressId}`, 'POST', address)
 
-export const deleteAddress = addressId => fetch(`/api/address/${addressId}/delete`, 'POST')
+export const deleteAddress = addressId => fetchData(`/api/address/${addressId}/delete`, 'POST')
 
 export const listAllCates = () => fetch(`/api/cate`)
 
-export const getUserInfo = userId => fetchData(`/api/${userId}/info`)
+export const getUserInfo = userId => fetchData(`/api/user/${userId}/info`)
 
 export const listOrdersByUser = userId => fetchData(`/api/user/${userId}/order`)
 

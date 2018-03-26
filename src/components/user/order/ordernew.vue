@@ -1,14 +1,14 @@
 /* eslint-disable */
 <template lang="html">
-  <div class="theall">
+  <div class="the-all">
 
     <div class="space">
       <div class="weui-cell nav">
-        <router-link :to="'/user/address'" class="weui-cell__hd navimg">
-          <img src="static/images/whitereturn.png" class="returnpng">
+        <router-link :to="'/user/address'" class="weui-cell__hd nav-img">
+          <img src="static/images/whitereturn.png" class="return-png">
         </router-link>
-        <div class="weui-cell__bd navaddress">
-          <p class="navtext">新增地址</p>
+        <div class="weui-cell__bd nav-address">
+          <p class="nav-text">新增地址</p>
         </div>
       </div>
     </div>
@@ -40,7 +40,6 @@
         </select>
         <span>已选择: {{ selected }} </span>
       </div>
-
       <div class="regitem">
     		<span>选择地址</span>
     		<div id="city">
@@ -49,7 +48,7 @@
     		  <select class="dist" disabled="disabled"></select>
     		</div>
     	</div-->
-      <router-link :to="''" class="weui-cell weui-cell_access">
+      <router-link :to="''" v-on:click="" class="weui-cell weui-cell_access" id="picker">
         <div class="weui-cell__hd">
           <label class="weui-label">地址</label>
         </div>
@@ -74,27 +73,30 @@
         <a id="formSubmitBtn" href="javascript:" class="weui-btn weui-btn_primary">提交</a>
       </div>
 
-      <div class="therest">
+
+      <div class="the-rest">
       </div>
+
 
   </div>
 </template>
 
 <script>
+
 export default {
   data () {
     return {
     }
   },
   methods: {
-    }
+  },
 }
-
 </script>
+
 <style lang="scss">
-.theall {
+.the-all {
   font-size: 17px;
-  .therest {
+  .the-rest {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -108,20 +110,19 @@ export default {
     background-color: #7979a5;
     .nav {
       padding: 35px 35px 35px 10px;
-      .navimg {
+      .nav-img {
         position: relative;
         top: 3px;
       }
-      .navaddress {
+      .nav-address {
         position: relative;
         left: 20px;
       }
-      .navtext {
+      .nav-text {
         color: white;
         font-family: fantasy;
       }
     }
   }
 }
-
 </style>

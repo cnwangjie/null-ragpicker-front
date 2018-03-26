@@ -1,27 +1,27 @@
 /* eslint-disable */
 <template lang="html">
-  <div class="theall">
+  <div class="the-all">
 
     <div class="space">
       <div class="weui-cell nav">
-        <router-link :to="''" class="weui-cell__hd navimg">
-          <img src="static/images/whitereturn.png" class="returnpng">
+        <router-link :to="''" class="weui-cell__hd nav-img">
+          <img src="static/images/whitereturn.png">
         </router-link>
-        <div class="weui-cell__bd navaddress">
-          <p class="navtext">下单</p>
+        <div class="weui-cell__bd nav-address">
+          <p class="nav-text">下单</p>
         </div>
       </div>
     </div>
 
-    <div class="addresschose">
+    <div class="address-choose">
 
       <div class="weui-cell weui-cell_link">
         <div class="weui-cell__bd">选择地址</div>
       </div>
-      <router-link :to="'/user/choseaddress'" class="weui-cell weui-cell_access">
+      <router-link :to="'/user/address/addressChoose'" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
-          <p class="addressinformation2">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation3">孙权 17356535320</p>
+          <p class="font-second">九龙路111号安徽大学清苑校区-行知楼</p>
+          <p class="font-third">孙权 17356535320</p>
         </div>
         <div class="weui-cell__ft">
         </div>
@@ -29,7 +29,7 @@
 
     </div>
 
-    <div class="betweenspace">
+    <div class="between-space">
     </div>
 
 
@@ -45,7 +45,7 @@
             <label for class="weui-label">请选择</label>
           </div>
           <div class="weui-cell__bd">
-            <select v-model="selected" class="weui-select usedtext" name="select2">
+            <select v-model="selected" class="weui-select used-text" name="select2">
               <option v-for="item in items" v-bind:value="item.message" >{{ item.message }} 参考单价： {{ item.price }}</option>
             </select>
           </div>
@@ -55,11 +55,11 @@
             <span class="weui-label"> {{ selected }} </span>
           </div>
           <div class="weui-cell__bd">
-            <input v-model="thismount" class="weui-input" type="number" name="" value="" placeholder="请输入数量">
+            <input v-model="thisMount" class="weui-input" type="number" name="" value="" placeholder="请输入数量">
           </div>
           <div class="weui-cell__ft">
             <!--a href="addused" class="weui-btn weui-btn_mini_warn delete">添加</a-->
-            <button v-on:click='addused' type="button" name="button" class="weui-btn weui-btn_mini_warn delete">添加</button>
+            <button v-on:click='addUsed' type="button" name="button" class="weui-btn weui-btn_mini_warn delete">添加</button>
           </div>
 
         </div>
@@ -76,8 +76,7 @@
             <label class="weui-label">× {{ add.mount }}</label>
           </div>
           <div class="weui-cell__ft">
-            <!--a href="deleteused" class="weui-btn weui-btn_mini_warn delete">删除</a-->
-            <button v-on:click='deleteused($index)' type="button" name="button" class="weui-btn weui-btn_mini_warn delete">删除</button>
+            <button v-on:click='deleteUsed(index)' type="button" name="button" class="weui-btn weui-btn_mini_warn delete">删除</button>
           </div>
         </div>
 
@@ -134,20 +133,20 @@ export default {
         { message: 'Bar',price: '20' },
         { message: 'Bac',price: '30' },
       ],
-      thismount: '',
+      thisMount: '',
       adds: [],
-      index: '0',
     }
   },
   methods: {
-    addused () {
+    addUsed () {
       this.adds.push({
-        index: this.index++,message: this.selected,mount: this.thismount,
+        message: this.selected,
+        mount: this.thisMount,
       })
-      this.thismount = ''
+      this.thisMount = ''
     },
-    deleteused (index) {
-      this.adds.splice(index-1,1)
+    deleteUsed (index) {
+      this.adds.splice(index,1)
     },
     submit () {
     }
@@ -157,51 +156,42 @@ export default {
 </script>
 
 <style lang="scss">
-.theall {
+.the-all {
   font-size: 17px;
   .space {
     width: 100%;
     background-color: #7979a5;
     .nav {
       padding: 35px 35px 35px 10px;
-      .navimg {
+      .nav-img {
         position: relative;
         top: 3px;
       }
-      .navaddress {
+      .nav-address {
         position: relative;
         left: 20px;
       }
-      .navtext {
+      .nav-text {
         color: white;
         font-family: fantasy;
       }
     }
   }
-  .addressinformation2 {
-    font-size: 13px;
-  }
-  .addressinformation3 {
-    padding-top:8px;
-    font-size: 11px;
-    color: #a59191;
-  }
-  .betweenspace {
+  .between-space {
     width: 100%;
     height: 30px;
     background-color: #ffefef;
   }
-  .therest {
+  .the-rest {
     width: 100%;
     height: 100%;
     position: fixed;
     background-color: #ffefef;
   }
-  .usedtext {
+  .used-text {
     font-size: 15px;
   }
   .delete {
-    //background-color: #d89797;
     color: black;
   }
 }
