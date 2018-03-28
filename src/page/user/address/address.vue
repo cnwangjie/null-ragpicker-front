@@ -17,12 +17,12 @@
         </div>
       </div>
 
-      <div v-for="(item, key) in address">
+      <div v-for="(item, key) in addresses">
         <router-link :to="`/user/address/${item.id}/edit`" class="weui-cell weui-cell_access">
           <div class="weui-cell__bd">
             <p class="font-first"> {{ item.detail }}</p>
             <p class="font-first"> {{ item.detail }}  {{item.location }}</p>
-            <p class="font-first"> {{ item.id }}  {{ item.tel }}</p>
+            <p class="font-first"> {{ item.tel }}</p>
 
           </div>
 
@@ -48,7 +48,7 @@ export default {
   methods: {
   },
   computed: {
-    ...mapState(['userId', 'address']),
+    ...mapState(['userId', 'addresses']),
   },
   created() {
     this.init()
@@ -56,8 +56,7 @@ export default {
   methods: {
     ...mapMutations(['addAddress']),
     init() {
-
-      if (this.address.length !== 0) return
+      if (this.addresses.length !== 0) return
 
       listUserAddress(this.userId).then(addresses => {
         addresses.map(address => {

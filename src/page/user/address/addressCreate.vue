@@ -81,23 +81,16 @@ export default {
     this.init()
   },
   computed: {
-    ...mapState(['userId',['address']]),
+    ...mapState(['userId', ['addresses']]),
   },
   methods: {
     ...mapMutations(['addAddress']),
     async init() {
-      if (this.address.length === 0) {
-        await listUserAddress(this.userId).then(addresses => {
-          addresses.map(address => {
-            this.addAddress(address)
-          })
-        })
-      }
     },
     submit () {
       addAddress(this.userId, this.localAddress).then(result => {
         if ('error' in result) {
-          //
+          // TODO: toast warning
         } else {
           this.addAddress(result)
         }

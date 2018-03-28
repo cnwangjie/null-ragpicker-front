@@ -5,10 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userId: NaN,
-    address: [],
+    userId: null,
+    addresses: [],
     userInfo: [],
-    order: [],
+    orders: [],
   },
   getters: {
   },
@@ -22,24 +22,20 @@ export default new Vuex.Store({
       state.userInfo.push(info)
     },
     setOrder(state,order) {
-      state.order.push(order)
+      state.orders.push(order)
     },
     addAddress(state, address) {
-      state.address.push(address)
+      state.addresses.push(address)
     },
-    editAddress(state,address) {
-      for (let i = 0; i < state.address.length; i++ ) {
-        if (state.address[i].id == address.id) {
-          state.address[i] = address
+    editAddress(state, address) {
+      for (let i = 0; i < state.addresses.length; i += 1) {
+        if (state.addresses[i].id === address.id) {
+          Object.assign(state.addresses[i], address)
         }
       }
     },
-    deleteAddress(state,id) {
-      for (let i = 0; i< state.address.length; i++ ) {
-        if (state.address[i].id == id) {
-          state.address.splice(i,1)
-        }
-      }
+    deleteAddress(state, id) {
+      state.addresses = state.addresses.filter(i => i.id !== id)
     },
   }
 })

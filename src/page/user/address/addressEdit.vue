@@ -15,49 +15,40 @@
       </div>
     </div>
 
-      <div class="weui-cell">
-        <div class="weui-cell__hd">
-          <label class="weui-label">联系人</label>
-        </div>
-        <div class="weui-cell__bd">
-          <input v-model="localAddress.id" class="weui-input" type="text" name="" value="" placeholder="姓名">
-        </div>
-    	</div>
-
-      <div class="weui-cell">
-        <div class="weui-cell__hd">
-          <label class="weui-label">电话</label>
-        </div>
-        <div class="weui-cell__bd">
-          <input v-model="localAddress.tel" class="weui-input" type="text" name="" value="" placeholder="手机号码">
-        </div>
-    	</div>
-      <router-link :to="''" class="weui-cell weui-cell_access">
-        <div class="weui-cell__hd">
-          <label class="weui-label">地址</label>
-        </div>
-        <div class="weui-cell__bd">
-          <input v-model="localAddress.location" class="weui-input" type="text" name="" value="" placeholder="">
-        </div>
-        <div class="weui-cell__ft">
-        </div>
-      </router-link>
-
-      <div class="weui-cell">
-        <div class="weui-cell__hd">
-          <label class="weui-label">详细地址</label>
-        </div>
-        <div class="weui-cell__bd">
-          <input v-model="localAddress.detail" class="weui-input" type="text" name="" value="" placeholder="详细地址">
-        </div>
-    	</div>
-
-      <div class="weui-btn-area">
-        <div v-on:click="confirm" class="weui-btn weui-btn_primary">确认修改</div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">电话</label>
       </div>
-
-      <div class="therest">
+      <div class="weui-cell__bd">
+        <input v-model="localAddress.tel" class="weui-input" type="text" name="" value="" placeholder="手机号码">
       </div>
+    </div>
+    <router-link :to="''" class="weui-cell weui-cell_access">
+      <div class="weui-cell__hd">
+        <label class="weui-label">地址</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input v-model="localAddress.location" class="weui-input" type="text" name="" value="" placeholder="">
+      </div>
+      <div class="weui-cell__ft">
+      </div>
+    </router-link>
+
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">详细地址</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input v-model="localAddress.detail" class="weui-input" type="text" name="" value="" placeholder="详细地址">
+      </div>
+    </div>
+
+    <div class="weui-btn-area">
+      <div v-on:click="confirm" class="weui-btn weui-btn_primary">确认修改</div>
+    </div>
+
+    <div class="therest">
+    </div>
 
   </div>
 </template>
@@ -80,30 +71,20 @@ export default {
     this.init()
   },
   computed: {
-    ...mapState(['userId','address']),
+    ...mapState(['userId','addresses']),
   },
   methods: {
     ...mapMutations(['addAddress','editAddress','deleteAddress']),
-    async init() {
-      if (this.address.length === 0) {
-        await listUserAddress(this.userId).then(addresses => {
-          addresses.map(address => {
-            this.addAddress(address)
-          })
-        })
-      }
-      for (let i = 0; i < this.address.length; i++) {
-        if (this.address[i].id == this.$route.params.id) {
-          this.localAddress.id = this.address[i].id
-          this.localAddress.tel = this.address[i].tel
-          this.localAddress.location = this.address[i].location
-          this.localAddress.detail = this.address[i].detail
+    init() {
+      for (let i = 0; i < this.addresses.length; i++) {
+        if (this.addresses[i].id === +this.$route.params.id) {
+          return Object.assign(this.localAddress, this.addresses[i])
         }
       }
     },
     confirm() {
       //console.log(this.address)
-      updateAddress(this.$route.params.id,this.localAddress).then(result => {
+      updateAddress(this.$route.params.id, this.localAddress).then(result => {
         if('error' in result) {
 
         } else {

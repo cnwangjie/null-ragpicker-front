@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div v-for="(item, key) in order" class="all-order">
+      <div v-for="(item, key) in orders" class="all-order">
         <router-link :to="{}" >
           <div class="weui-cells">
             <div class="weui-cell">
@@ -22,9 +22,9 @@
                 <img src="static/images/1.jpg" alt="" style="width:33px;display:block;margin-bottom:40px">
               </div>
               <div class="weui-cell__bd" style="text-align:left;margin-left:10px;">
-                <p class="font-first">{{item.collector.info.name}}</p>
+                <p class="font-first">{{ item.collector.info.name }}</p>
                 <p class="font-third">{{ item.createdAt }}</p>
-                <p class="font-second" style="margin-top:20px">{{item.orderDetail[0].cate.name}}等商品</p>
+                <p v-if="item.orderDetail.length > 0" class="font-second" style="margin-top:20px">{{ item.orderDetail[0].cate.name }}等物品</p>
               </div>
 
               <div class="weui-cell__bd" style="text-align:right">
@@ -50,7 +50,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userId','order'])
+    ...mapState(['userId','orders'])
   },
   created() {
     this.init()
@@ -58,7 +58,7 @@ export default {
   methods: {
     ...mapMutations(['setOrder']),
     init () {
-      if (this.order.length === 0) {
+      if (this.orders.length === 0) {
         listOrdersByUser(this.userId).then(result => {
           if ('error' in result) {
 
