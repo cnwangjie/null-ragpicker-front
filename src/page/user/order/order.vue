@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template  lang="html">
   <div class="the-all">
 

@@ -1,5 +1,4 @@
-/* eslint-disable */
-<template  lang="html">
+<template lang="html">
   <div class="the-all">
 
     <div class="weui-cells">
