@@ -70,7 +70,11 @@ export const addAddress = (userId, address) => fetchData(`/api/user/${userId}/ad
 
 export const getAddress = addressId => fetchData(`/api/address/${addressId}`)
 
-export const updateAddress = (addressId, address) => fetchData(`/api/address/${addressId}`, 'POST', address)
+export const updateAddress = (addressId, address) => fetchData(`/api/address/${addressId}`, 'POST', {
+  tel: address.tel,
+  location: address.location,
+  detail: address.detail,
+})
 
 export const deleteAddress = addressId => fetchData(`/api/address/${addressId}/delete`, 'POST')
 

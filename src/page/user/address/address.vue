@@ -21,7 +21,7 @@
         <router-link :to="`/user/address/${item.id}/edit`" class="weui-cell weui-cell_access">
           <div class="weui-cell__bd">
             <p class="font-first"> {{ item.detail }}</p>
-            <p class="font-first"> {{ item.detail }}  {{item.location }}</p>
+            <p class="font-first"> {{ getFullNameByLocation(item.location) }}</p>
             <p class="font-first"> {{ item.tel }}</p>
 
           </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { getFullNameByLocation } from '@/assets/data_location/list'
 import { mapState, mapMutations } from 'vuex'
 import { listUserAddress } from '@/service/getData'
 export default {
@@ -55,6 +56,7 @@ export default {
   },
   methods: {
     ...mapMutations(['addAddress']),
+    getFullNameByLocation,
     init() {
       if (this.addresses.length !== 0) return
 

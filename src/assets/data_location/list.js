@@ -3470,5 +3470,12 @@ Object.keys(list).map(key => {
       })
   }
 })
-console.log(items)
 export default items
+
+export const getFullNameByLocation = loc => {
+  let name = ''
+  name += (list[(loc / 1E4 << 0) * 1E4 + ''] + ' ') || ''
+  name += (list[(loc / 1E2 << 0) * 1E2 + ''] + ' ') || ''
+  name += list[loc] || ''
+  return name
+}
