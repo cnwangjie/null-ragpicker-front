@@ -7,9 +7,9 @@
           <img src="static/images/whitereturn.png">
         </router-link>
         <div class="weui-cell__bd nav-address">
-          <p class="nav-text">修改地址</p>
+          <p class="nav-text">{{ isCreate ? "新增地址" : "修改地址" }}</p>
         </div>
-        <div class="weui-cell__ft">
+        <div v-if="!isCreate" class="weui-cell__ft">
           <div v-on:click="addressDelete" class="nav-text">删除地址</div>
         </div>
       </div>
@@ -28,7 +28,7 @@
         <label class="weui-label">地址</label>
       </div>
       <div class="weui-cell__bd">
-        <input v-model="localAddress.location" class="weui-input" type="text" name="" value="" placeholder="">
+        <input v-on:click="pickLocation" v-model="locationName" class="weui-input" type="text" name="" value="" placeholder="">
       </div>
       <div class="weui-cell__ft">
       </div>
@@ -44,7 +44,7 @@
     </div>
 
     <div class="weui-btn-area">
-      <div v-on:click="confirm" class="weui-btn weui-btn_primary">确认修改</div>
+      <div v-on:click="confirm" class="weui-btn weui-btn_primary">{{ isCreate ? "确认添加" : "确认修改" }}</div>
     </div>
 
     <div class="therest">
@@ -54,11 +54,20 @@
 </template>
 
 <script>
+import { weui } from '@/assets/weui'
 import { mapState, mapMutations } from 'vuex'
-import { listUserAddress,deleteAddress,updateAddress } from '@/service/getData'
+import {
+  listUserAddress,
+  deleteAddress,
+  updateAddress,
+  addAddress,
+} from '@/service/getData'
+import dataLocationItems from '@/assets/data_location/list'
 export default {
   data () {
     return {
+      locationName: '',
+      isCreate: false,
       localAddress: {
         id: '',
         location: null,
@@ -76,6 +85,9 @@ export default {
   methods: {
     ...mapMutations(['addAddress','editAddress','deleteAddress']),
     init() {
+      this.isCreate = this.$route.name === 'userAddressCreate'
+      if (this.isCreate) return
+
       for (let i = 0; i < this.addresses.length; i++) {
         if (this.addresses[i].id === +this.$route.params.id) {
           return Object.assign(this.localAddress, this.addresses[i])
@@ -84,23 +96,45 @@ export default {
     },
     confirm() {
       //console.log(this.address)
-      updateAddress(this.$route.params.id, this.localAddress).then(result => {
-        if('error' in result) {
+      if (this.isCreate) {
+        addAddress(this.userId, this.localAddress).then(result => {
+          if ('error' in result) {
+            // TODO: toast warning
+          } else {
+            this.addAddress(result)
+            this.$router.push('/user/address')
+          }
+        })
+      } else {
+        updateAddress(this.localAddress.id, this.localAddress).then(result => {
+          if('error' in result) {
 
-        } else {
-          this.editAddress(this.localAddress)
-          //console.log(this.address)
+          } else {
+            this.editAddress(this.localAddress)
+          }
+        })
+      }
+    },
+    addressDelete() {
+      deleteAddress(this.localAddress.id).then(result => {
+        if (result.status === 'success') {
+          this.deleteAddress(this.localAddress.id)
+          this.$router.push('/user/address')
         }
       })
     },
-    addressDelete() {
-      deleteAddress(this.$route.params.id).then(result =>{
-        if('error' in result) {
-
-        } else {
-          this.deleteAddress(this.$route.params.id)
-        }
-      })
+    pickLocation() {
+      weui.picker(dataLocationItems, {
+        container: 'body',
+        depth: 3,
+        onChange: result => {
+        },
+        onConfirm: result => {
+          this.locationName = result.map(i => i.label).join(' ')
+          this.localAddress.location = +result.slice().pop().value
+        },
+        id: 'location-picker'
+      });
     }
   }
 }

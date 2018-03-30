@@ -8,7 +8,6 @@ import userOrderDetail from '@/page/user/order/orderDetail'
 import userAddress from '@/page/user/address/address'
 import userAddressEdit from '@/page/user/address/addressEdit'
 import userAddressChoose from '@/page/user/address/addressChoose'
-import userAddressCreate from '@/page/user/address/addressCreate'
 import collectorOrder from '@/page/collector/order/order'
 import collectorOrderDetail from '@/page/collector/order/orderDetail'
 
@@ -34,7 +33,7 @@ export default new Router({
     {
       path: '/user/address/create',
       name: 'userAddressCreate',
-      component: userAddressCreate
+      component: userAddressEdit
     },
     {
       path: '/user/address/:id/edit',
