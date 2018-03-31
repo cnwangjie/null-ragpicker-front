@@ -55,7 +55,7 @@
 
 <script>
 import { weui } from '@/assets/weui'
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 import {
   listUserAddress,
   deleteAddress,
@@ -83,6 +83,7 @@ export default {
   },
   computed: {
     ...mapState(['userId','addresses']),
+    ...mapGetters(['getAddress']),
     locationName() {
       return getFullNameByLocation(this.localAddress.location)
     },
@@ -95,14 +96,8 @@ export default {
     init() {
       if (this.isCreate) return
 
-      for (let i = 0; i < this.addresses.length; i++) {
-        if (this.addresses[i].id === +this.$route.params.id) {
-          Object.assign(this.localAddress, this.addresses[i])
-          break
-        }
-      }
-
-      this.locationName = getFullNameByLocation(this.localAddress.location)
+      const address = this.getAddress(+this.$route.params.id)
+      Object.assign(this.localAddress, address)
     },
     confirm() {
       if (this.localAddress.tel < 1E10 || this.localAddress.tel > 2E10) {
@@ -163,7 +158,6 @@ export default {
         onChange: result => {
         },
         onConfirm: result => {
-          this.locationName = result.map(i => i.label).join(' ')
           this.localAddress.location = +result.slice().pop().value
         },
         id: 'location-picker'

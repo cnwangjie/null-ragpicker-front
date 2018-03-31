@@ -11,6 +11,9 @@ export default new Vuex.Store({
     orders: [],
   },
   getters: {
+    getAddress(state) {
+      return id => state.addresses.find(i => i.id === id)
+    }
   },
   actions: {
   },
