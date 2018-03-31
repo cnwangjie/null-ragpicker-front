@@ -70,8 +70,6 @@ import {
 export default {
   data () {
     return {
-      locationName: '',
-      isCreate: false,
       localAddress: {
         id: '',
         location: null,
@@ -85,11 +83,16 @@ export default {
   },
   computed: {
     ...mapState(['userId','addresses']),
+    locationName() {
+      return getFullNameByLocation(this.localAddress.location)
+    },
+    isCreate() {
+      return this.$route.name === 'userAddressCreate'
+    },
   },
   methods: {
     ...mapMutations(['addAddress','editAddress','deleteAddress']),
     init() {
-      this.isCreate = this.$route.name === 'userAddressCreate'
       if (this.isCreate) return
 
       for (let i = 0; i < this.addresses.length; i++) {
