@@ -17,18 +17,7 @@
         </div>
       </div>
 
-      <router-link :to="''" class="weui-cell weui-cell_access">
-        <div class="weui-cell__bd address-content">
-          <p>安徽大学清苑校区-行知楼</p>
-          <p>九龙路111号安徽大学清苑校区-行知楼</p>
-          <p>孙权 17356535320</p>
-        </div>
-        <router-link :to="'/user/address/edit'" class="weui-cell__hd">
-          <img src="static/images/edit.png" class="edit-png">
-        </router-link>
-      </router-link>
-
-      <router-link :to="''" class="weui-cell weui-cell_access">
+      <router-link v-for="item in addresses" :to="''" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd address-content">
           <p>安徽大学清苑校区-行知楼</p>
           <p>九龙路111号安徽大学清苑校区-行知楼</p>

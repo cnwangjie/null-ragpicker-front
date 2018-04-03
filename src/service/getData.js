@@ -92,7 +92,7 @@ export const createOrder = (userId, {addressId, remark, orderDetails}) => fetchD
 
 export const deleteOrder = orderNo => fetchData(`/api/order/${orderNo}/cancel`, 'POST')
 
-export const listOrdersByCollector = collectorId => fetchData(`/api/order/${collectorId}/order`)
+export const listOrdersByCollector = collectorId => fetchData(`/api/collector/${collectorId}/order`)
 
 export const completeOrder = (orderNo, amount, orderDetails) => fetchData(`/api/order/${orderNo}/complete`, 'POST', {
   amount,

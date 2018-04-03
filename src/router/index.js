@@ -61,14 +61,24 @@ export default new Router({
       component: userOrderDetail
     },
     {
-      path: '/collector/order/detail',
-      name: 'collectorOrderDetail',
-      component: collectorOrderDetail
+      path: '/collector/order/alloted',
+      name: 'collectorAllotedOrder',
+      component: collectorOrder
     },
     {
       path: '/collector/order',
-      name: 'collectorOrder',
+      name: 'collectorAllotedOrder',
       component: collectorOrder
-    }
+    },
+    {
+      path: '/collector/order/all',
+      name: 'collectorAllOrder',
+      component: collectorOrder
+    },
+    {
+      path: '/collector/order/:orderNo',
+      name: 'collectorOrderDetail',
+      component: collectorOrderDetail
+    },
   ]
 })

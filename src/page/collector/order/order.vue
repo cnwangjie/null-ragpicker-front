@@ -3,86 +3,65 @@
 
     <div class="weui-cells">
 
-      <div class="space">
-        <div class="weui-cell nav">
-          <router-link :to="'/'" class="weui-cell__hd nav-img">
-            <img src="static/images/whitereturn.png">
-          </router-link>
-          <div class="weui-cell__bd nav-address">
-            <p class="nav-text">我的订单</p>
-          </div>
+      <div class="weui-navbar">
+        <div class="weui-navbar__item" :class="alloted ? 'weui-bar__item_on' : ''" v-on:click="$router.push('/collector/order/alloted')">
+            当前订单
+        </div>
+        <div class="weui-navbar__item" :class="!alloted ? 'weui-bar__item_on' : ''" v-on:click="$router.push('/collector/order/all')">
+            全部订单
         </div>
       </div>
-
-      <div class="all-order">
-        <router-link :to="{}">
+      <div class="weui-tab__panel all-order">
+        <router-link v-for="order in orders" :to="`/collector/order/${order.orderNo}`" v-if="!alloted || order.status === 10">
           <div class="weui-cells">
             <div class="weui-cell">
               <div class="weui-cell__hd">
                 <img src="static/images/1.jpg" alt="" style="width:33px;display:block;margin-bottom:40px">
               </div>
               <div class="weui-cell__bd" style="text-align:left;margin-left:10px;">
-                <p class="font-first">收购员6号</p>
-                <p class="font-third">2018-03-04 16:57</p>
-                <p class="font-second" style="margin-top:20px">废弃书本等商品</p>
+                <p class="font-first">{{ order.locDetail }}</p>
+                <p class="font-third">{{ new Date(order.createdAt).toUTCString() }}</p>
+                <p v-if="order.orderDetail.length > 0" class="font-second" style="margin-top:20px">{{ order.orderDetail[0].cate.name }}等商品</p>
               </div>
 
               <div class="weui-cell__bd" style="text-align:right">
-                <p style="margin-bottom:31px">订单已完成</p>
-                <p>¥ 20</p>
-              </div>
-            </div>
-          </div>
-        </router-link>
-        <router-link :to="{}">
-          <div class="weui-cells">
-            <div class="weui-cell">
-              <div class="weui-cell__hd">
-                <img src="static/images/1.jpg" alt="" style="width:33px;display:block;margin-bottom:40px">
-              </div>
-              <div class="weui-cell__bd" style="text-align:left;margin-left:10px;">
-                <p class="font-first">收购员6号</p>
-                <p class="font-third">2018-03-04 16:57</p>
-                <p class="font-second" style="margin-top:20px">废弃书本等商品</p>
-              </div>
-
-              <div class="weui-cell__bd" style="text-align:right">
-                <p style="margin-bottom:31px">订单已完成</p>
-                <p>¥ 20</p>
+                <p style="margin-bottom:31px">{{ order.status }}</p>
+                <p v-if="order.amount">¥ {{ order.amount }}</p>
               </div>
             </div>
           </div>
         </router-link>
       </div>
-
-      <!--router-link :to="'/user/addressedit'" class="weui-cell weui-cell_access">
-        <div class="weui-cell__bd">
-          <p class="addressinformation-first">安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-second">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-third">孙权 17356535320</p>
-        </div>
-        <div class="weui-cell__hd">
-          <img src="static/images/edit.png" class="editpng">
-        </div>
-      </router-link>
-
-      <router-link :to="'/user/addressedit'" class="weui-cell weui-cell_access">
-        <div class="weui-cell__bd">
-          <p class="addressinformation-first">安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-second">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-third">孙权 17356535320</p>
-        </div>
-        <div class="weui-cell__hd">
-          <img src="static/images/edit.png" class="editpng">
-        </div>
-      </router-link-->
     </div>
 
   </div>
 </template>
 
 <script>
+import { listOrdersByCollector } from '@/service/getData'
+import { mapState, mapMutations } from 'vuex'
 export default {
+  data() {
+    return {
+      orders: []
+    }
+  },
+  computed: {
+    ...mapState(['userId']),
+    alloted() {
+      return this.$route.name === 'collectorAllotedOrder'
+    },
+  },
+  created() {
+    this.init()
+  },
+  methods: {
+    init() {
+      listOrdersByCollector(this.userId).then(orders => {
+        this.orders = orders
+      })
+    }
+  }
 }
 </script>
 
