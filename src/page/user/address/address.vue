@@ -46,8 +46,6 @@ export default {
     return {
     }
   },
-  methods: {
-  },
   computed: {
     ...mapState(['userId', 'addresses']),
   },

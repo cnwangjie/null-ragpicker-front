@@ -3474,8 +3474,10 @@ export default items
 
 export const getFullNameByLocation = loc => {
   let name = ''
-  name += (list[(loc / 1E4 << 0) * 1E4 + ''] + ' ') || ''
-  name += (list[(loc / 1E2 << 0) * 1E2 + ''] + ' ') || ''
+  name += list[(loc / 1E4 << 0) * 1E4 + ''] || ''
+  name += ' '
+  name += list[(loc / 1E2 << 0) * 1E2 + ''] || ''
+  name += ' '
   name += list[loc] || ''
   return name
 }

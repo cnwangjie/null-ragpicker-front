@@ -21,6 +21,16 @@ export default new Router({
       component: userHome
     },
     {
+      path: '/user',
+      name: 'userHome',
+      component: userHome
+    },
+    {
+      path: '/user/home',
+      name: 'userHome',
+      component: userHome
+    },
+    {
       path: '/user/address',
       name: 'userAddress',
       component: userAddress

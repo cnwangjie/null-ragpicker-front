@@ -122,7 +122,7 @@ export default {
           } else {
             this.addAddress(result)
             weui.toast('保存成功')
-            this.$router.push('/user/address')
+            this.$router.go(-1)
           }
         })
       } else {
@@ -132,7 +132,7 @@ export default {
           } else {
             this.editAddress(this.localAddress)
             weui.toast('保存成功')
-            this.$router.push('/user/address')
+            this.$router.go(-1)
           }
         })
       }
@@ -161,7 +161,7 @@ export default {
           this.localAddress.location = +result.slice().pop().value
         },
         id: 'location-picker'
-      });
+      })
     }
   }
 }

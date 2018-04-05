@@ -3,7 +3,7 @@
 
     <div class="space">
       <div class="weui-cell nav">
-        <router-link :to="''" class="weui-cell__hd nav-img">
+        <router-link :to="'/user/home'" class="weui-cell__hd nav-img">
           <img src="static/images/whitereturn.png">
         </router-link>
         <div class="weui-cell__bd nav-address">
@@ -12,15 +12,13 @@
       </div>
     </div>
 
-    <div class="address-choose">
+    <div class="address-choose weui-cells">
 
-      <div class="weui-cell weui-cell_link">
-        <div class="weui-cell__bd">选择地址</div>
-      </div>
-      <router-link :to="'/user/address/addressChoose'" class="weui-cell weui-cell_access">
+      <div class="weui-cells__title">选择地址</div>
+      <router-link :to="'/user/address/choose'" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
-          <p class="font-second">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="font-third">孙权 17356535320</p>
+          <p class="font-second">{{ getFullNameByLocation(localAddress.location) }} {{ localAddress.locDetail }}</p>
+          <p class="font-third">{{ localAddress.tel }}</p>
         </div>
         <div class="weui-cell__ft">
         </div>
@@ -31,11 +29,8 @@
     <div class="between-space">
     </div>
 
-
-    <div class="unused">
-      <div class="weui-cell weui-cell_link">
-        <div class="weui-cell__bd">废品类型</div>
-      </div>
+    <div class="weui-cells">
+      <div class="weui-cells__title">废品列表</div>
 
       <div class="weui-cells" style="margin-top:0px">
 
@@ -44,111 +39,157 @@
             <label for class="weui-label">请选择</label>
           </div>
           <div class="weui-cell__bd">
-            <select v-model="selected" class="weui-select used-text" name="select2">
-              <option v-for="item in items" v-bind:value="item.message" >{{ item.message }} 参考单价： {{ item.price }}</option>
-            </select>
+            <div class="weui-select used-text" v-on:click="pickCate">
+              {{ selectedCate.name }}
+            </div>
           </div>
         </div>
         <div class="weui-cell" style="padding-top:0px;padding-bottom:0px;">
           <div class="weui-cell__hd">
-            <span class="weui-label"> {{ selected }} </span>
+            <span class="weui-label"> {{ selectedCate.name }} </span>
           </div>
           <div class="weui-cell__bd">
-            <input v-model="thisMount" class="weui-input" type="number" name="" value="" placeholder="请输入数量">
+            <input v-model="selectedCate.sum" class="weui-input" type="number" name="" value="" placeholder="请输入数量">
           </div>
           <div class="weui-cell__ft">
-            <!--a href="addused" class="weui-btn weui-btn_mini_warn delete">添加</a-->
-            <button v-on:click='addUsed' type="button" name="button" class="weui-btn weui-btn_mini_warn delete">添加</button>
+            <a v-on:click='add'
+              class="weui-btn weui-btn weui-btn_plain-default" :class="(this.selectedCate.name && this.selectedCate.sum > 0) ? '' : 'weui-btn_plain-disabled'">
+              添加
+            </a>
           </div>
 
         </div>
 
-        <div class="weui-cell weui-cell_link">
-          <div class="weui-cell__bd">订单列表</div>
-        </div>
-
-        <div v-for="(add,index) in adds"  class="weui-cell" style="padding-top:0px;padding-bottom:0px;">
+        <div v-for="(item, index) in creatingOrder.items"  class="weui-cell" style="padding-top:0px;padding-bottom:0px;">
           <div class="weui-cell__hd">
-            <label class="weui-label">{{ add.message }}</label>
+            <label class="weui-label">{{ item.name }}</label>
           </div>
           <div class="weui-cell__bd" style="text-align:center">
-            <label class="weui-label">× {{ add.mount }}</label>
+            <label class="weui-label">× {{ item.sum }}</label>
           </div>
           <div class="weui-cell__ft">
-            <button v-on:click='deleteUsed(index)' type="button" name="button" class="weui-btn weui-btn_mini_warn delete">删除</button>
+            <button v-on:click='removeItem(index)' type="button" name="button" class="weui-btn weui-btn_warn">删除</button>
+          </div>
+        </div>
+
+        <div class="weui-cells__title">备注</div>
+
+        <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <textarea v-model="creatingOrder.remark" class="weui-textarea" placeholder="请输入文本" rows="3" style="z-index: auto; position: relative; line-height: 25px; font-size: 17px; transition: none; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"></textarea>
+            <div class="weui-textarea-counter" :style="creatingOrder.remark.length > 200 ? {color: 'red'} : {}"><span>{{ creatingOrder.remark.length > 200 ? '字数过多' : '' }} {{ creatingOrder.remark.length }}</span>/200</div>
           </div>
         </div>
 
       </div>
     </div>
     <div class="weui-btn-area">
-      <button v-on:click="submit" class="weui-btn weui-btn_primary">下单</button>
+      <button v-on:click="submitOrder" class="weui-btn weui-btn_primary">下单</button>
     </div>
-      <!--div class="weui-cells weui-cells_checkbox">
-        <label class="weui-cell weui-check__label" for="s11">
-          <div class="weui-cell__hd">
-            <input type="checkbox" class="weui-check" name="checkbox1" id="s11" checked='checked'>
-            <i class="weui-icon-checked"></i>
-          </div>
-          <div class="weui-cell__bd">
-            <p>废品A</p>
-          </div>
-        </label>
-      </div>
-      <div class="weui-cells weui-cells_checkbox">
-        <label class="weui-cell weui-check__label" for="s12">
-          <div class="weui-cell__hd">
-            <input type="checkbox" class="weui-check" name="checkbox1" id="s12" checked=''>
-            <i class="weui-icon-checked"></i>
-          </div>
-          <div class="weui-cell__bd">
-            <p>废品B</p>
-          </div>
-        </label>
-      </div>
-      <div class="weui-cells weui-cells_checkbox">
-        <label class="weui-cell weui-check__label" for="s13">
-          <div class="weui-cell__hd">
-            <input type="checkbox" class="weui-check" name="checkbox1" id="s13" checked='checked'>
-            <i class="weui-icon-checked"></i>
-          </div>
-          <div class="weui-cell__bd">
-            <p>废品C</p>
-          </div>
-        </label>
-      </div-->
 
 
   </div>
 </template>
 
 <script>
+import { weui } from '@/assets/weui'
+import { listAllCates, createOrder } from '@/service/getData'
+import { mapState, mapMutations, mapGetters } from 'vuex'
+import { getFullNameByLocation } from '@/assets/data_location/list'
 export default {
   data () {
     return {
-      selected:'Foo',
-      items: [
-        { message: 'Foo',price: '10' },
-        { message: 'Bar',price: '20' },
-        { message: 'Bac',price: '30' },
-      ],
-      thisMount: '',
-      adds: [],
+      selectedCate: {
+        index: null,
+        name: '',
+        sum: null,
+      }
     }
   },
+  computed: {
+    ...mapState(['userId', 'cates', 'creatingOrder']),
+    ...mapGetters(['getAddress']),
+    localAddress() {
+      if (this.creatingOrder.selectedAddressId)
+        return this.getAddress(this.creatingOrder.selectedAddressId)
+      else
+        return {
+          location: 0,
+          locDetail: '未选择',
+          tel: null,
+        }
+    },
+  },
+  created() {
+    this.init()
+  },
   methods: {
-    addUsed () {
-      this.adds.push({
-        message: this.selected,
-        mount: this.thisMount,
+    ...mapMutations(['setCates', 'addItem', 'removeItem']),
+    getFullNameByLocation,
+    init() {
+      if (this.cates.length === 0) {
+        listAllCates().then(cates => {
+          if ('error' in cates) {
+            console.log(cates)
+          } else {
+            this.setCates(cates)
+          }
+        })
+      }
+    },
+    pickCate() {
+      const items = this.cates.map((i, j) => {
+        return {
+          label: i.name,
+          value: j,
+        }
       })
-      this.thisMount = ''
+      weui.picker(items, {
+        container: 'body',
+        defaultValue: this.selectedCate.index || 0,
+        depth: 1,
+        onChange: result => {
+        },
+        onConfirm: result => {
+          const r = result.shift()
+          this.selectedCate.index = r.value
+          this.selectedCate.name = this.cates[r.value].name
+        },
+        id: 'cate-picker'
+      })
     },
-    deleteUsed (index) {
-      this.adds.splice(index,1)
+    add() {
+      if (this.selectedCate.name && this.selectedCate.sum > 0) {
+        this.addItem(Object.assign({},
+          this.cates[this.selectedCate.index],
+          {sum: this.selectedCate.sum}))
+        this.selectedCate.name = ''
+        this.selectedCate.sum = null
+      }
     },
-    submit () {
-    }
+    submitOrder() {
+      if (!this.creatingOrder.selectedAddressId) {
+        weui.topTips('请选择地址')
+      }
+
+      if (this.creatingOrder.items.length === 0) {
+        weui.topTips('请添加废品')
+      }
+
+      createOrder(this.userId, {
+        addressId: this.creatingOrder.selectedAddressId,
+        remark: this.creatingOrder.remark,
+        orderDetails: this.creatingOrder.items,
+      }).then(result => {
+        if ('error' in result) {
+          console.log(result)
+          weui.topTips('出错啦')
+        } else {
+          weui.toast('下单成功')
+          this.$router.push('/user/home')
+        }
+      })
+    },
   }
 }
 
@@ -189,9 +230,6 @@ export default {
   }
   .used-text {
     font-size: 15px;
-  }
-  .delete {
-    color: black;
   }
 }
 

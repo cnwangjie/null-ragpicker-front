@@ -78,16 +78,21 @@ export const updateAddress = (addressId, address) => fetchData(`/api/address/${a
 
 export const deleteAddress = addressId => fetchData(`/api/address/${addressId}/delete`, 'POST')
 
-export const listAllCates = () => fetch(`/api/cate`)
+export const listAllCates = () => fetchData(`/api/cate`)
 
 export const getUserInfo = userId => fetchData(`/api/user/${userId}/info`)
 
 export const listOrdersByUser = userId => fetchData(`/api/user/${userId}/order`)
 
 export const createOrder = (userId, {addressId, remark, orderDetails}) => fetchData(`/api/user/${userId}/order`, 'POST', {
-  address_id,
+  address_id: addressId,
   remark: remark || '',
-  order_details: JSON.stringify(orderDetails),
+  order_details: JSON.stringify(orderDetails.map(item => {
+    return {
+      cate_id: +item.id,
+      sum: +item.sum,
+    }
+  })),
 })
 
 export const deleteOrder = orderNo => fetchData(`/api/order/${orderNo}/cancel`, 'POST')

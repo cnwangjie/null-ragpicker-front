@@ -82,7 +82,7 @@ export default {
     this.init()
   },
   methods: {
-    ...mapMutations(['setUserInfo', 'setOrder']),
+    ...mapMutations(['setUserInfo', 'addOrder']),
     init () {
       if (!('nickname' in this.userInfo)) {
         getUserInfo(this.userId).then(result => {
@@ -100,7 +100,7 @@ export default {
 
           } else {
             result.map(result => {
-              this.setOrder(result)
+              this.addOrder(result)
             })
           }
         })

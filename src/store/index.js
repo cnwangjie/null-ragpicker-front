@@ -9,7 +9,12 @@ export default new Vuex.Store({
     addresses: [],
     userInfo: {},
     orders: [],
-    cate: [],
+    creatingOrder: {
+      items: [],
+      selectedAddressId: null,
+      remark: '',
+    },
+    cates: [],
   },
   getters: {
     getAddress(state) {
@@ -28,7 +33,7 @@ export default new Vuex.Store({
     setUserInfo(state, info) {
       state.userInfo = info
     },
-    setOrder(state,order) {
+    addOrder(state, order) {
       state.orders.push(order)
     },
     addAddress(state, address) {
@@ -43,6 +48,18 @@ export default new Vuex.Store({
     },
     deleteAddress(state, id) {
       state.addresses = state.addresses.filter(i => i.id !== id)
+    },
+    selectAddress(state, id) {
+      state.creatingOrder.selectedAddressId = id
+    },
+    addItem(state, item) {
+      state.creatingOrder.items.push(item)
+    },
+    removeItem(state, index) {
+      state.creatingOrder.items.splice(index, 1)
+    },
+    setCates(state, cates) {
+      state.cates = cates
     },
   }
 })

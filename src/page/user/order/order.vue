@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { listOrdersByUser } from'@/service/getData'
+import { listOrdersByUser } from '@/service/getData'
 import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
@@ -56,7 +56,7 @@ export default {
     this.init()
   },
   methods: {
-    ...mapMutations(['setOrder']),
+    ...mapMutations(['addOrder']),
     init () {
       if (this.orders.length === 0) {
         listOrdersByUser(this.userId).then(result => {
@@ -64,7 +64,7 @@ export default {
 
           } else {
             result.map(result => {
-              this.setOrder(result)
+              this.addOrder(result)
             })
           }
         })
