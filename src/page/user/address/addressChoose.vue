@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div v-for="(item, key) in addresses" v-on:click="select(item.id)" class="weui-cell weui-cell_access">
+      <div v-for="item in addresses" v-on:click="select(item.id)" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
           <p class="font-first"> {{ item.detail }}</p>
           <p class="font-first"> {{ getFullNameByLocation(item.location) }}</p>
@@ -64,7 +64,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .the-all {
   .weui-cells {
     margin-top: 0px;

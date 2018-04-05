@@ -40,7 +40,6 @@
                 <div class="weui-cell">
 
                   <div class="weui-cell__bd order-information">
-                    <p class="font-first">{{ item.collector.info.name }}</p>
                     <p class="font-third">{{ formatDate(item.createdAt) }}</p>
                     <p v-if="item.orderDetail.length > 0" class="font-second" >{{ item.orderDetail[0].cate.name }}等物品</p>
                   </div>
