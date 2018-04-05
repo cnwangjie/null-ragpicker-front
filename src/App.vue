@@ -8,7 +8,6 @@
 import './assets/weui.js'
 import { getToken, getUserByToken } from '@/service/getData'
 import { mapState, mapMutations } from 'vuex'
-import { listUserAddress } from '@/service/getData'
 export default {
   data () {
     return {
@@ -36,8 +35,6 @@ export default {
 <style>
 @import './assets/weui.min.css';
 .the-all {
-  width: 100%;
-  height: 100%;
   font-family: cursive;
 }
 .font-first {
@@ -47,7 +44,6 @@ export default {
   font-size: 15px;
 }
 .font-third {
-  padding-top:8px;
   font-size: 13px;
   color: #a59191;
 }

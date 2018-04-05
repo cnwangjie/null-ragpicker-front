@@ -66,7 +66,7 @@ export default new Router({
       component: userOrderCreate
     },
     {
-      path: '/user/order/detail',
+      path: '/user/order/:orderNo',
       name: 'userOrderDetail',
       component: userOrderDetail
     },

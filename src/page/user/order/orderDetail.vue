@@ -5,39 +5,27 @@
 
       <div class="space">
         <div class="weui-cell nav">
-          <router-link :to="'/'" class="weui-cell__hd nav-img">
+          <router-link :to="'/user/home'" class="weui-cell__hd nav-img">
             <img src="static/images/whitereturn.png" class="returnpng">
           </router-link>
           <div class="weui-cell__bd nav-address">
-            <p class="nav-text">订单已完成</p>
+            <p class="nav-text">{{ orderStatus[order.status] }}</p>
           </div>
         </div>
       </div>
 
       <div class="order-detail">
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-              <p>接送员6号</p>
-          </div>
-          <div class="weui-cell__ft" style="font-size:8px;">
-            <router-link :to="'/user/ordercreat'" class="weui-swiped-btn weui-swiped-btn btn" style="padding:5px;">再下一单</router-link>
-          </div>
-        </div>
-        <hr>
 
         <div class="weui-cells">
-          <div class="weui-cell weui-cell_access">
-            <div class="weui-cell__hd">
-              <img src="static/images/1.jpg" alt="" style="width:33px;margin-left:5px;display:block">
-            </div>
+          <div v-for="item in order.orderDetail" class="weui-cell weui-cell_access">
             <div class="weui-cell__bd" style="text-align:left;margin-left:5px;">
-              <p class="font-second">废弃书本</p>
+              <p class="font-second">{{ item.cate.name }}</p>
             </div>
             <div class="weui-cell__bd" style="text-align:right">
-              <p class="font-second">× 15</p>
+              <p class="font-second">× {{ item.sum }}</p>
             </div>
-            <div class="weui-cell__bd" style="text-align:right">
-              <p class="font-second">¥ 20</p>
+            <div class="weui-cell__bd" style="text-align:right" v-if="order.amount">
+              <p class="font-second">¥ {{ item.price }}</p>
             </div>
           </div>
         </div>
@@ -48,10 +36,10 @@
               <img src="static/images/phone.png" alt="" style="width:15px;margin-left:5px;display:block">
             </div>
             <div class="weui-cell__bd" style="text-align:left;margin-left:10px;">
-              <a href="#">联系配送员</a>
+              <span v-if="order.collector">回收员: {{ order.collector.name }}</br>电话：{{ order.collector.tel }}</span>
             </div>
             <div class="weui-cell__bd" style="text-align:right">
-              <p>总售价   ¥ 20</p>
+              <p v-if="order.amount">总售价   ¥ {{ (order.amount / 100).toFixed(2) }}</p>
             </div>
           </div>
         </div>
@@ -64,32 +52,11 @@
       <div class="delivery-information">
         <div class="weui-cell">
           <div class="weui-cell__bd">
-            <p>配送信息:</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>送达时间</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p>尽快送达</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
             <p>收货地址</p>
           </div>
           <div class="weui-cell__ft">
-            <p class="font-second">九龙路111号安徽大学清苑校区-行知楼</p>
-            <p class="font-third">孙权 17356535320</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>配送方式</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p>商家配送</p>
+            <p class="font-second">{{ getFullNameByLocation(order.location) }} {{ order.locDetail }}</p>
+            <p class="font-third">{{ order.tel }}｝</p>
           </div>
         </div>
       </div>
@@ -100,23 +67,10 @@
       <div class="order-information">
         <div class="weui-cell">
           <div class="weui-cell__bd">
-            <p>订单信息:</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
             <p>订单号</p>
           </div>
           <div class="weui-cell__ft">
-            <p class="font-third">3020 0630 092 8789 118</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>支付方式</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p>在线支付</p>
+            <p class="font-third">{{ order.orderNo }}</p>
           </div>
         </div>
         <div class="weui-cell">
@@ -124,48 +78,47 @@
             <p>下单时间</p>
           </div>
           <div class="weui-cell__ft">
-            <p>2018-03-03 21:56</p>
+            <p>{{ formatDate(order.createdAt) }}</p>
           </div>
         </div>
       </div>
-      <!--router-link :to="'/user/addressedit'" class="weui-cell weui-cell_access">
-        <div class="weui-cell__bd">
-          <p class="addressinformation-first">安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-second">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-third">孙权 17356535320</p>
-        </div>
-        <div class="weui-cell__hd">
-          <img src="static/images/edit.png" class="editpng">
-        </div>
-      </router-link>
-
-      <router-link :to="'/user/addressedit'" class="weui-cell weui-cell_access">
-        <div class="weui-cell__bd">
-          <p class="addressinformation-first">安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-second">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-third">孙权 17356535320</p>
-        </div>
-        <div class="weui-cell__hd">
-          <img src="static/images/edit.png" class="editpng">
-        </div>
-      </router-link-->
     </div>
 
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+import { mapGetters } from 'vuex'
+import { getFullNameByLocation } from '@/assets/data_location/list'
+import orderStatus from '@/assets/orderStatus'
 export default {
+  data () {
+    return {
+      orderStatus,
+      order: {}
+    }
+  },
+  computed: {
+    ...mapGetters(['getOrder']),
+  },
+  created() {
+    this.init()
+  },
+  methods: {
+    getFullNameByLocation,
+    init () {
+      this.order = this.getOrder(this.$route.params.orderNo)
+    },
+    formatDate(time) {
+      return moment(time).format('Y年M月d日')
+    },
+  }
 }
 </script>
 
 <style lang="scss">
 .the-all {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  //background-color: #ffefef;
-  overflow: auto;
   font-size: 17px;
   font-family: cursive;
   .weui-cells {

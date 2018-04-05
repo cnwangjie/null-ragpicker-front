@@ -34,8 +34,8 @@
             <div class="weui-cell__ft">
             </div>
           </router-link-->
-          <div v-for="(item, key) in orders" class="all-order">
-            <router-link :to="{}">
+          <div v-for="item in orders" class="all-order">
+            <router-link :to="`/user/order/${item.orderNo}`">
               <div class="weui-cells no-top">
                 <div class="weui-cell">
 
@@ -45,8 +45,8 @@
                   </div>
 
                   <div class="weui-cell__bd order-status">
-                    <p class="status">订单已完成</p>
-                    <p v-if="item.status == 2" class="amount"> {{ item.status.toFixed(2)}} 元 </p>
+                    <p class="status">{{ orderStatus[item.status] }}</p>
+                    <p v-if="item.status === 2 && item.amount" class="amount"> {{ item.amount.toFixed(2) }} 元 </p>
                   </div>
                 </div>
               </div>
@@ -69,9 +69,11 @@
 import moment from 'moment'
 import { mapState, mapMutations } from 'vuex'
 import { listOrdersByUser, getUserInfo } from '@/service/getData'
+import orderStatus from '@/assets/orderStatus'
 export default {
   data () {
     return {
+      orderStatus,
     }
   },
   computed: {

@@ -5,173 +5,116 @@
 
       <div class="space">
         <div class="weui-cell nav">
-          <router-link :to="'/'" class="weui-cell__hd nav-img">
+          <router-link :to="'/collector/order'" class="weui-cell__hd nav-img">
             <img src="static/images/whitereturn.png" class="returnpng">
           </router-link>
           <div class="weui-cell__bd nav-address">
-            <p class="nav-text">订单已完成</p>
+            <p class="nav-text">{{ orderStatus[order.status] }}</p>
           </div>
         </div>
       </div>
 
-      <div class="order-detail">
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-              <p>接送员6号</p>
-          </div>
-          <div class="weui-cell__ft" style="font-size:8px;">
-            <router-link :to="'/user/ordercreat'" class="weui-swiped-btn weui-swiped-btn btn" style="padding:5px;">再下一单</router-link>
-          </div>
-        </div>
-        <hr>
-
-        <div class="weui-cells">
-          <div class="weui-cell weui-cell_access">
-            <div class="weui-cell__hd">
-              <img src="static/images/1.jpg" alt="" style="width:33px;margin-left:5px;display:block">
-            </div>
-            <div class="weui-cell__bd" style="text-align:left;margin-left:5px;">
-              <p class="font-second">废弃书本</p>
-            </div>
-            <div class="weui-cell__bd" style="text-align:right">
-              <p class="font-second">× 15</p>
-            </div>
-            <div class="weui-cell__bd" style="text-align:right">
-              <p class="font-second">¥ 20</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="weui-cells">
-          <div class="weui-cell weui-cell_access">
-            <div class="weui-cell__hd">
-              <img src="static/images/phone.png" alt="" style="width:15px;margin-left:5px;display:block">
-            </div>
-            <div class="weui-cell__bd" style="text-align:left;margin-left:10px;">
-              <a href="#">联系配送员</a>
-            </div>
-            <div class="weui-cell__bd" style="text-align:right">
-              <p>总售价   ¥ 20</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="between-space">
-      </div>
 
       <div class="delivery-information">
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>配送信息:</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>送达时间</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p>尽快送达</p>
-          </div>
-        </div>
+
         <div class="weui-cell">
           <div class="weui-cell__bd">
             <p>收货地址</p>
           </div>
           <div class="weui-cell__ft">
-            <p class="font-second">九龙路111号安徽大学清苑校区-行知楼</p>
-            <p class="font-third">孙权 17356535320</p>
+            <p class="font-third">{{ order.locDetail }}</p>
+            <p class="font-third">{{ order.tel }}</p>
           </div>
         </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>配送方式</p>
+
+          <div class="weui-cell">
+            <div class="weui-cell__bd">
+              <p>订单号</p>
+            </div>
+            <div class="weui-cell__ft">
+              <p class="font-third">{{ order.orderNo }}</p>
+            </div>
           </div>
-          <div class="weui-cell__ft">
-            <p>商家配送</p>
+
+          <div class="weui-cell">
+            <div class="weui-cell__bd">
+              <p>下单时间</p>
+            </div>
+            <div class="weui-cell__ft">
+              <p class="font-third">{{ formatDate(order.createdAt) }}</p>
+            </div>
           </div>
-        </div>
+
+          <div class="weui-cell">
+            <div class="weui-cell__bd">
+              <p>备注</p>
+            </div>
+            <div class="weui-cell__ft">
+              <p class="font-third">{{ order.remark }}</p>
+            </div>
+          </div>
+          <div class="weui-cells__title">废品列表</div>
+          <div class="weui-cell order-detail">
+            <ul>
+              <li v-for="item in order.orderDetail">
+                {{ item.cate.name }} <span>× {{ item.sum }}</span>
+              </li>
+            </ul>
+          </div>
+
       </div>
 
-      <div class="between-space">
-      </div>
 
-      <div class="order-information">
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>订单信息:</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>订单号</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p class="font-third">3020 0630 092 8789 118</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>支付方式</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p>在线支付</p>
-          </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>下单时间</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p>2018-03-03 21:56</p>
-          </div>
-        </div>
-      </div>
-      <!--router-link :to="'/user/addressedit'" class="weui-cell weui-cell_access">
-        <div class="weui-cell__bd">
-          <p class="addressinformation-first">安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-second">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-third">孙权 17356535320</p>
-        </div>
-        <div class="weui-cell__hd">
-          <img src="static/images/edit.png" class="editpng">
-        </div>
-      </router-link>
-
-      <router-link :to="'/user/addressedit'" class="weui-cell weui-cell_access">
-        <div class="weui-cell__bd">
-          <p class="addressinformation-first">安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-second">九龙路111号安徽大学清苑校区-行知楼</p>
-          <p class="addressinformation-third">孙权 17356535320</p>
-        </div>
-        <div class="weui-cell__hd">
-          <img src="static/images/edit.png" class="editpng">
-        </div>
-      </router-link-->
     </div>
 
   </div>
 </template>
 
 <script>
+import orderStatus from '@/assets/orderStatus'
+import moment from 'moment'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 export default {
+  data() {
+    return {
+      order: {},
+      orderStatus,
+    }
+  },
+  created() {
+    this.init()
+  },
+  computed: {
+    ...mapState(['orders']),
+    ...mapGetters(['getOrder']),
+  },
+  methods: {
+    init() {
+      this.order = this.getOrder(this.$route.params.orderNo)
+    },
+    formatDate(time) {
+      return moment(time).format('Y年M月d日')
+    },
+  }
 }
 </script>
 
 <style lang="scss">
 .the-all {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  //background-color: #ffefef;
-  overflow: auto;
-  font-size: 17px;
-  font-family: cursive;
   .weui-cells {
     margin-top: 0px;
   }
+
   .order-detail {
+    ul {
+      margin: 0 auto;
+      width: 80%;
+      li {
+        span {
+          float: right;
+        }
+      }
+    }
     .btn {
       border:1px solid #007cff;
       color: #007cff;
@@ -196,22 +139,6 @@ export default {
         font-family: fantasy;
       }
     }
-  }
-  .font-first {
-    font-weight: bolder;
-  }
-  .font-second {
-    font-size: 13px;
-  }
-  .font-third {
-    padding-top:8px;
-    font-size: 11px;
-    color: #a59191;
-  }
-  .between-space {
-    width: 100%;
-    height: 5px;
-    background-color: #ffefef;
   }
 }
 </style>
