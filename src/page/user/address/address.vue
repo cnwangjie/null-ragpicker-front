@@ -21,8 +21,8 @@
         <router-link :to="`/user/address/${item.id}/edit`" class="weui-cell weui-cell_access">
           <div class="weui-cell__bd">
             <p class="font-first"> {{ item.detail }}</p>
-            <p class="font-first"> {{ getFullNameByLocation(item.location) }}</p>
-            <p class="font-first"> {{ item.tel }}</p>
+            <p class="font-second"> {{ getFullNameByLocation(item.location) }}</p>
+            <p class="font-third"> {{ item.tel }}</p>
 
           </div>
 
@@ -55,6 +55,9 @@ export default {
     this.init()
   },
   methods: {
+    formatDate(time) {
+      return moment(time).format('Y年M月d日')
+    },
     ...mapMutations(['addAddress']),
     getFullNameByLocation,
     init() {

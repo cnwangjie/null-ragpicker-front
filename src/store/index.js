@@ -7,8 +7,9 @@ export default new Vuex.Store({
   state: {
     userId: null,
     addresses: [],
-    userInfo: [],
+    userInfo: {},
     orders: [],
+    cate: [],
   },
   getters: {
     getAddress(state) {
@@ -18,11 +19,14 @@ export default new Vuex.Store({
   actions: {
   },
   mutations: {
+    setcate(state, cate) {
+      state.cate = cate
+    },
     setUserId(state, id) {
       state.userId = id
     },
-    setUserInfo(state,info) {
-      state.userInfo.push(info)
+    setUserInfo(state, info) {
+      state.userInfo = info
     },
     setOrder(state,order) {
       state.orders.push(order)
