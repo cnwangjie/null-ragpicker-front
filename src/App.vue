@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import './assets/weui.js'
 import { getToken, getUserByToken } from '@/service/getData'
 import { mapState, mapMutations } from 'vuex'
 export default {
@@ -16,15 +15,9 @@ export default {
   },
   name: 'App',
   created() {
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlkdCI6InVzZXIiLCJleHAiOjE1MjIwOTA1ODN9.-wlI6Chfz_YUTMl-dVVIQQnoLQB_woBus0qDh9p-qrJWLvqqGx0qXD-Xbau9TCpohnMj8o-He-CghiUbTZ9U7g'
-    // const userId = getUserByToken(token).sub
-    localStorage.setItem('jwt-token', token)
-    const userId = 1
-    // console.log(getUserByToken(token))
+    const token = getToken()
+    const userId = getUserByToken(token).sub
     this.setUserId(userId)
-    //console.log(localStorage.getItem('userId'))
-    //console.log(this.address)
-
   },
   methods: {
     ...mapMutations(['setUserId']),

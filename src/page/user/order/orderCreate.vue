@@ -170,10 +170,12 @@ export default {
     submitOrder() {
       if (!this.creatingOrder.selectedAddressId) {
         weui.topTips('请选择地址')
+        return
       }
 
       if (this.creatingOrder.items.length === 0) {
         weui.topTips('请添加废品')
+        return
       }
 
       createOrder(this.userId, {
