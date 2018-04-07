@@ -26,7 +26,7 @@
 
               <div class="weui-cell__bd" style="text-align:right">
                 <p style="margin-bottom:31px">{{ order.status }}</p>
-                <p v-if="order.amount">¥ {{ order.amount }}</p>
+                <p v-if="order.amount">¥ {{ (order.amount / 100).toFixed(2) }}</p>
               </div>
             </div>
           </div>
@@ -43,11 +43,10 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {
-      orders: []
     }
   },
   computed: {
-    ...mapState(['userId']),
+    ...mapState(['userId', 'orders']),
     alloted() {
       return this.$route.name === 'collectorAllotedOrder'
     },
@@ -56,16 +55,20 @@ export default {
     this.init()
   },
   methods: {
+    ...mapMutations(['addOrder']),
     init() {
+      if (this.orders.length !== 0) return
       listOrdersByCollector(this.userId).then(orders => {
-        this.orders = orders
+        if (Array.isArray(orders)) {
+          orders.map(i => this.addOrder(i))
+        }
       })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .the-all {
   font-size: 17px;
   .weui-cells {
@@ -102,8 +105,6 @@ export default {
     font-size: 11px;
     color: #a59191;
   }
-  width: 100%;
-  height: 100%;
   position: fixed;
   background-color: #ffefef;
 }

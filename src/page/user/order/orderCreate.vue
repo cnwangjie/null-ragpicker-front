@@ -49,7 +49,7 @@
             <span class="weui-label"> {{ selectedCate.name }} </span>
           </div>
           <div class="weui-cell__bd">
-            <input v-model="selectedCate.sum" class="weui-input" type="number" name="" value="" placeholder="请输入数量">
+            <input v-model="selectedCate.sum" class="weui-input" type="number" name="" value="" :placeholder="'请输入数量 ' + (selectedCate.index ? '单位(' + selectedCate.unit + ')' : '')">
           </div>
           <div class="weui-cell__ft">
             <a v-on:click='add'
@@ -65,7 +65,7 @@
             <label class="weui-label">{{ item.name }}</label>
           </div>
           <div class="weui-cell__bd" style="text-align:center">
-            <label class="weui-label">× {{ item.sum }}</label>
+            <label class="weui-label">× {{ item.sum }} {{ item.unit }}</label>
           </div>
           <div class="weui-cell__ft">
             <button v-on:click='removeItem(index)' type="button" name="button" class="weui-btn weui-btn_warn">删除</button>
@@ -102,6 +102,7 @@ export default {
       selectedCate: {
         index: null,
         name: '',
+        unit: '',
         sum: null,
       }
     }
@@ -154,6 +155,7 @@ export default {
           const r = result.shift()
           this.selectedCate.index = r.value
           this.selectedCate.name = this.cates[r.value].name
+          this.selectedCate.unit = this.cates[r.value].unit
         },
         id: 'cate-picker'
       })
