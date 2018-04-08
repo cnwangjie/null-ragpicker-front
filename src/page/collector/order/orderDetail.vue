@@ -18,93 +18,81 @@
       <div class="delivery-information">
         <baidu-map v-if="bdak" :center="center" :zoom="zoom" class="bm-view" :ak="bdak">
         </baidu-map>
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>收货地址</p>
-          </div>
-          <div class="weui-cell__ft">
-            <p class="font-third">{{ getFullNameByLocation(order.location) }} {{ order.locDetail }}</p>
-            <p class="font-third">{{ order.tel }}</p>
+        <div class="weui-form-preview">
+          <div class="weui-form-preview__bd">
+            <p>
+                <label class="weui-form-preview__label">地址</label>
+                <span class="weui-form-preview__value">{{ getFullNameByLocation(order.location) }} {{ order.locDetail }}</span>
+            </p>
+            <p>
+                <label class="weui-form-preview__label">电话</label>
+                <span class="weui-form-preview__value">{{ order.tel }}</span>
+            </p>
+            <p>
+                <label class="weui-form-preview__label">订单号</label>
+                <span class="weui-form-preview__value">{{ order.orderNo }}</span>
+            </p>
+            <p>
+                <label class="weui-form-preview__label">下单时间</label>
+                <span class="weui-form-preview__value">{{ formatDate(order.createdAt) }}</span>
+            </p>
+            <p>
+                <label class="weui-form-preview__label">备注</label>
+                <span class="weui-form-preview__value">{{ order.remark }}</span>
+            </p>
           </div>
         </div>
 
+        <div class="weui-cells__title">废品列表</div>
+
+        <div class="weui-cells">
+          <div class="weui-cell" v-for="item, index in order.orderDetail">
+            <div class="weui-cell__bd weui-cell_primary">
+              <p>{{ item.cate.name }}</p>
+            </div>
+
+            <span class="weui-cell__ht">
+              × {{ item.sum }} {{ item.cate.unit }} 单价: {{ (item.price / 100).toFixed(2) }}元
+            </span>
+
+            <div class="weui-cell__hd" v-if="editing" v-on:click="remove(index)">
+              <i class="weui-icon-cancel"></i>
+            </div>
+          </div>
+
           <div class="weui-cell">
+            总计: {{ formattedAmount }} 元
+          </div>
+
+          <!-- <div class="weui-cell order-detail">
+            <ul>
+              <li v-for="item in order.orderDetail">
+                {{ item.cate.name }} <span>× {{ item.sum }} {{ item.cate.unit }}</span>
+              </li>
+            </ul>
+          </div> -->
+          <div class="weui-cell weui-cell_select weui-cell_select-before" v-if="editing">
+            <div class="weui-cell__hd weui-cell_access" v-on:click="pickCate">
+              <input class="weui-select" disabled v-model="selected.cate.name">
+              </input>
+            </div>
             <div class="weui-cell__bd">
-              <p>订单号</p>
+              <input v-model="selected.sum" class="weui-input" type="number" pattern="[0-9]*" :placeholder="'数量 ' + (selected.cate.unit ? `单位(${selected.cate.unit})` : '')">
             </div>
-            <div class="weui-cell__ft">
-              <p class="font-third">{{ order.orderNo }}</p>
-            </div>
-          </div>
-
-          <div class="weui-cell">
             <div class="weui-cell__bd">
-              <p>下单时间</p>
+              <input v-model="selected.price" class="weui-input" type="number" pattern="[0-9\.]*" v-on:change="formatPrice" :placeholder="'单价(元)'">
             </div>
-            <div class="weui-cell__ft">
-              <p class="font-third">{{ formatDate(order.createdAt) }}</p>
-            </div>
-          </div>
-
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>备注</p>
-            </div>
-            <div class="weui-cell__ft">
-              <p class="font-third">{{ order.remark }}</p>
+            <div class="weui-cell__hd">
+              <a href="javascript:void(0);" v-on:click="add" :style="">添加</a>
             </div>
           </div>
+        </div>
 
-          <div class="weui-cells__title">废品列表</div>
-
-          <div class="weui-cells">
-            <div class="weui-cell" v-for="item, index in order.orderDetail">
-              <div class="weui-cell__bd weui-cell_primary">
-                <p>{{ item.cate.name }}</p>
-              </div>
-
-              <span class="weui-cell__ht">
-                × {{ item.sum }} {{ item.cate.unit }} 单价: {{ (item.price / 100).toFixed(2) }}元
-              </span>
-
-              <div class="weui-cell__hd" v-if="editing" v-on:click="remove(index)">
-                <i class="weui-icon-cancel"></i>
-              </div>
-            </div>
-
-            <div class="weui-cell">
-              总计: {{ formattedAmount }} 元
-            </div>
-
-            <!-- <div class="weui-cell order-detail">
-              <ul>
-                <li v-for="item in order.orderDetail">
-                  {{ item.cate.name }} <span>× {{ item.sum }} {{ item.cate.unit }}</span>
-                </li>
-              </ul>
-            </div> -->
-            <div class="weui-cell weui-cell_select weui-cell_select-before" v-if="editing">
-              <div class="weui-cell__hd weui-cell_access" v-on:click="pickCate">
-                <input class="weui-select" disabled v-model="selected.cate.name">
-                </input>
-              </div>
-              <div class="weui-cell__bd">
-                <input v-model="selected.sum" class="weui-input" type="number" pattern="[0-9]*" :placeholder="'数量 ' + (selected.cate.unit ? `单位(${selected.cate.unit})` : '')">
-              </div>
-              <div class="weui-cell__bd">
-                <input v-model="selected.price" class="weui-input" type="number" pattern="[0-9\.]*" v-on:change="formatPrice" :placeholder="'单价(元)'">
-              </div>
-              <div class="weui-cell__hd">
-                <a href="javascript:void(0);" v-on:click="add" :style="">添加</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="complete-btn" v-if="order.status === 10">
-            <span v-if="!editing" class="weui-btn weui-btn_mini weui-btn_primary" v-on:click="editing = true">完成订单</span>
-            <span v-if="editing" class="weui-btn weui-btn_mini weui-btn_primary" v-on:click="complete">确认</span>
-            <span v-if="editing" class="weui-btn weui-btn_mini weui-btn_warn" v-on:click="editing = false">取消</span>
-          </div>
+        <div class="complete-btn" v-if="order.status === 10">
+          <span v-if="!editing" class="weui-btn weui-btn_mini weui-btn_primary" v-on:click="editing = true">完成订单</span>
+          <span v-if="editing" class="weui-btn weui-btn_mini weui-btn_primary" v-on:click="complete">确认</span>
+          <span v-if="editing" class="weui-btn weui-btn_mini weui-btn_warn" v-on:click="editing = false">取消</span>
+        </div>
 
       </div>
 
@@ -185,6 +173,9 @@ export default {
         }
       }
       this.center = dataLocationList[this.order.location]
+      this.order.orderDetail.map(i => {
+        if (!i.price) i.price = i.cate.price
+      })
       if (this.cates.length === 0) this.getCates()
     },
     getCates() {
@@ -275,6 +266,11 @@ export default {
 
 <style lang="scss">
 .the-all {
+  .delivery-information {
+    p {
+      word-break: break-all;
+    }
+  }
   .bm-view {
     width: 100%;
     height: 300px;
@@ -282,7 +278,7 @@ export default {
   .weui-cells {
     margin-top: 0px;
   }
-
+  .dev
   .order-detail {
     ul {
       list-style: none;

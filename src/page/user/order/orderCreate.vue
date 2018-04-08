@@ -125,7 +125,7 @@ export default {
     this.init()
   },
   methods: {
-    ...mapMutations(['setCates', 'addItem', 'removeItem']),
+    ...mapMutations(['setCates', 'addItem', 'removeItem', 'addOrder']),
     getFullNameByLocation,
     init() {
       if (this.cates.length === 0) this.getCates()
@@ -193,6 +193,7 @@ export default {
           console.log(result)
           weui.topTips('出错啦')
         } else {
+          this.addOrder(result)
           weui.toast('下单成功')
           this.$router.push('/user/home')
         }
