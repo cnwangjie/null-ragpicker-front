@@ -22,7 +22,7 @@
               <p class="font-second">{{ item.cate.name }}</p>
             </div>
             <div class="weui-cell__bd" style="text-align:right">
-              <p class="font-second">× {{ item.sum }}</p>
+              <p class="font-second">× {{ item.sum }} {{ item.cate.unit }}</p>
             </div>
             <div class="weui-cell__bd" style="text-align:right" v-if="order.amount">
               <p class="font-second">¥ {{ item.price }}</p>

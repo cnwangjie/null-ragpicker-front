@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import userHome from '@/page/user/home/home'
-import userOrder from '@/page/user/order/order'
-import userOrderNew from '@/page/user/order/orderNew'
 import userOrderCreate from '@/page/user/order/orderCreate'
 import userOrderDetail from '@/page/user/order/orderDetail'
 import userAddress from '@/page/user/address/address'
@@ -49,16 +47,6 @@ export default new Router({
       path: '/user/address/:id/edit',
       name: 'userAddressEdit',
       component: userAddressEdit
-    },
-    {
-      path: '/user/order',
-      name: 'userOrder',
-      component: userOrder
-    },
-    {
-      path: '/user/order/new',
-      name: 'userOrderNew',
-      component: userOrderNew
     },
     {
       path: '/user/order/create',

@@ -128,6 +128,9 @@ export default {
     ...mapMutations(['setCates', 'addItem', 'removeItem']),
     getFullNameByLocation,
     init() {
+      if (this.cates.length === 0) this.getCates()
+    },
+    getCates() {
       if (this.cates.length === 0) {
         listAllCates().then(cates => {
           if ('error' in cates) {
@@ -145,6 +148,7 @@ export default {
           value: j,
         }
       })
+      if (this.cates.length === 0) return
       weui.picker(items, {
         container: 'body',
         defaultValue: this.selectedCate.index || 0,

@@ -37,7 +37,9 @@ export default new Vuex.Store({
       state.userInfo = info
     },
     addOrder(state, order) {
-      state.orders.push(order)
+      const existsOrder = state.orders.find(i => i.orderNo === order.orderNo)
+      if (existsOrder) Object.assign(existsOrder, order)
+      else state.orders.push(order)
     },
     addAddress(state, address) {
       state.addresses.push(address)

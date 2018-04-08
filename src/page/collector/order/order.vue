@@ -15,9 +15,6 @@
         <router-link v-for="order in orders" :to="`/collector/order/${order.orderNo}`" v-if="!alloted || order.status === 10">
           <div class="weui-cells">
             <div class="weui-cell">
-              <div class="weui-cell__hd">
-                <img src="static/images/1.jpg" alt="" style="width:33px;display:block;margin-bottom:40px">
-              </div>
               <div class="weui-cell__bd" style="text-align:left;margin-left:10px;">
                 <p class="font-first">{{ order.locDetail }}</p>
                 <p class="font-third">{{ new Date(order.createdAt).toUTCString() }}</p>
@@ -25,7 +22,7 @@
               </div>
 
               <div class="weui-cell__bd" style="text-align:right">
-                <p style="margin-bottom:31px">{{ order.status }}</p>
+                <p style="margin-bottom:31px">{{ orderStatus[order.status] }}</p>
                 <p v-if="order.amount">¥ {{ (order.amount / 100).toFixed(2) }}</p>
               </div>
             </div>
@@ -40,9 +37,11 @@
 <script>
 import { listOrdersByCollector } from '@/service/getData'
 import { mapState, mapMutations } from 'vuex'
+import orderStatus from '@/assets/orderStatus'
 export default {
   data() {
     return {
+      orderStatus,
     }
   },
   computed: {
@@ -95,8 +94,6 @@ export default {
       }
     }
   }
-  .font-first {
-  }
   .font-second {
     font-size: 13px;
   }
@@ -105,6 +102,7 @@ export default {
     font-size: 11px;
     color: #a59191;
   }
+  width: 100%;
   position: fixed;
   background-color: #ffefef;
 }
